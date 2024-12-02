@@ -1,34 +1,52 @@
-#include <LiquidCrystal.h>
 #include <Servo.h>
+#include <LiquidCrystal.h>
 
-const int Xaxis1 = A0;
-const int Yaxis1 = A1;
-const int Xaxis2 = A3;
-const int Yaxis2 = A4;
+// Pin assignments for servos
+const int basePin = 9;
+const int armSegment1Pin = 10;
+const int armSegment2Pin = 11;
+const int armSegment3Pin = 12;
+const int grabberPin = 13;
 
-Servo GServo;
-Servo BServo;
+// Create Servo objects
+Servo baseServo;
+Servo armSegment1Servo;
+Servo armSegment2Servo;
+Servo armSegment3Servo;
+Servo grabberServo;
 
-//const int rs = 13, en = 12, d4 = 7, d5 = 6, d6 = 5, d7 = 4;
-//LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+// Joystick analog pins
+const int joystick1XPin = A0;
+const int joystick1YPin = A1;
+const int joystick2XPin = A2;
+const int joystick2YPin = A3;
+
+// Servo position limits
+int baseServoPos = 90;
+int armSegment1Pos = 90;
+int armSegment2Pos = 90;
+int armSegment3Pos = 90;
+int grabberPos = 90;
 
 void setup() {
-    serial.begin(9600);
+  // Attach servos to pins
+  baseServo.attach(basePin);
+  armSegment1Servo.attach(armSegment1Pin);
+  armSegment2Servo.attach(armSegment2Pin);
+  armSegment3Servo.attach(armSegment3Pin);
+  grabberServo.attach(grabberPin);
+  
+  // Set initial servo positions
+  baseServo.write(baseServoPos);
+  armSegment1Servo.write(armSegment1Pos);
+  armSegment2Servo.write(armSegment2Pos);
+  armSegment3Servo.write(armSegment3Pos);
+  grabberServo.write(grabberPos);
+
+  // Initialize Serial monitor (optional for debugging)
+  Serial.begin(9600);
 }
 
 void loop() {
-
-}
-
-void get_joystick() {
-    int posX1 = analogRead(Xaxis1);
-    int posY1 = analogRead(Yaxis1);
-    int posX2 = analogRead(Xaxis2);
-    int posY2 = analogRead(Yaxis2);
-
-    if(analogRead(Xaxis1) >= 490) {
-        translateX1 = map(posX1, 498, 1023, 1, 10);
-    } 
-//
-
+    
 }
