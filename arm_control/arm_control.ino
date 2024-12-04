@@ -1,3 +1,5 @@
+// Copyright (c) 2025, Aiden Haglund, Axion Dynamics
+
 #include <Servo.h>
 #include <LiquidCrystal.h>
 
@@ -72,7 +74,18 @@ void loop() {
   }
     
   // X axis 2
-  if(analog)
+  if(analogRead(joystick2XPin) <= 505) {
+    grabberPos -= 2;
+    grabberPos = constrain(grabberPos, 84, 156);
+    grabberServo.write(grabberPos);
+  }
+  else if(analogRead(joystick2XPin) >= 518) {
+    grabberPos += 2;
+    grabberPos = constrain(grabberPos, 84, 156);
+  }
+
+  // Y axis 2
+  if()
 }
 
 void displayValues() {
