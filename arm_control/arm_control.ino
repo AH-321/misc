@@ -1,10 +1,10 @@
-// Copyright (c) 2025, Aiden Haglund, Axion Dynamics
-
 #include <Servo.h>
 #include <LiquidCrystal.h>
 
 const int rs = 13, en = 12, d4 = 7, d5 = 6, d6 = 5, d7 = 4;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+String displayMode;
 
 // Pin assignments for servos
 const int basePin = 2;
@@ -51,14 +51,16 @@ void setup() {
 void loop() {
   // X axis 1
   if(analogRead(joystick1XPin) <= 505) {
-  baseServoPos -= 5;
-  baseServoPos = constrain(baseServoPos, 0, 180);
-  baseServo.write(baseServoPos);
+    baseServoPos -= 5;
+    baseServoPos = constrain(baseServoPos, 0, 180);
+    baseServo.write(baseServoPos);
+    displayMode = "X1";
   } 
   else if(analogRead(joystick1XPin) >= 518) {
-  baseServoPos += 5;
-  baseServoPos = constrain(baseServoPos, 0, 180);
-  baseServo.write(baseServoPos);
+    baseServoPos += 5;
+    baseServoPos = constrain(baseServoPos, 0, 180);
+    baseServo.write(baseServoPos);
+    displayMode = "X1";
   }
 
   // Y axis 1
@@ -66,30 +68,75 @@ void loop() {
     armSegment1Pos -= 5;
     armSegment1Pos = constrain(armSegment1Pos, 0, 180);
     armSegment1Servo.write(armSegment1Pos);
+    displayMode = "Y1";
   }
   else if(analogRead(joystick1YPin) >= 518) {
     armSegment1Pos += 5;
     armSegment1Pos = constrain(armSegment1Pos, 0, 180);
     armSegment1Servo.write(armSegment1Pos);
+    displayMode = "Y1";
   }
-    
+
   // X axis 2
   if(analogRead(joystick2XPin) <= 505) {
     grabberPos -= 2;
     grabberPos = constrain(grabberPos, 84, 156);
     grabberServo.write(grabberPos);
+    displayMode = "X2";
   }
   else if(analogRead(joystick2XPin) >= 518) {
     grabberPos += 2;
     grabberPos = constrain(grabberPos, 84, 156);
+    grabberServo.write(grabberPos);
+    displayMode = "X2";
   }
 
   // Y axis 2
-  if()
+  if(analogRead(joystick2YPin) <= 505) {
+    armSegment2Pos -= 5;
+    armSegment3Pos -= 5;
+    armSegment2Pos = constrain(armSegment2Pos, 0, 180);
+    armSegment3Pos = constrain(armSegment3Pos, 0, 180);
+    armSegment2Servo.write(armSegment2Pos);
+    armSegment3Servo.write(armSegment3Pos);
+    displayMode = "Y2";
+  }
+  else if(analogRead(joystick2YPin) >= 518) {
+    armSegment2Pos += 5;
+    armSegment3Pos += 5;
+    armSegment2Pos = constrain(armSegment2Pos, 0, 180);
+    armSegment3Pos = constrain(armSegment3Pos, 0, 180);
+    armSegment2Servo.write(armSegment2Pos);
+    armSegment3Servo.write(armSegment3Pos);
+    displayMode = "Y2";
+  }
+
+  displayValues();
 }
 
+// Update LCD depending on inputs
 void displayValues() {
-  
+  lcd.clear();
+  lcd.setCursor(0, 0);
+
+  if(displayMode == "X1") {
+    lcd.print("Base pos: ");
+    lcd.print(baseServoPos);
+  }
+  else if(displayMode == "Y1") {
+    lcd.print("Arm1 pos: ");
+    lcd.print(armSegment1Pos);
+  }
+  else if(displayMode == "X2") {
+    lcd.print("Grabber pos: ");
+    lcd.print(grabberPos);
+  }
+  else if(displayMode == "Y2") {
+    lcd.print("Arm2 & 3 pos: ");
+    lcd.print(armSegment2Pos);
+    lcd.print(" & ");
+    lcd.print(armSegment3Pos);
+  }
 }
 
 void initialize() { 
