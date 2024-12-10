@@ -124,7 +124,7 @@ void displayValues() {
     lcd.print(baseServoPos);
   }
   else if(displayMode == "Y1") {
-    lcd.print("Arm1 pos: ");
+    lcd.print("Arm segment 1 pos: ");
     lcd.print(armSegment1Pos);
   }
   else if(displayMode == "X2") {
@@ -132,9 +132,10 @@ void displayValues() {
     lcd.print(grabberPos);
   }
   else if(displayMode == "Y2") {
-    lcd.print("Arm2 & 3 pos: ");
+    lcd.print("Arm segment 2 pos: ");
     lcd.print(armSegment2Pos);
-    lcd.print(" & ");
+    lcd.setCursor(0, 1);
+    lcd.print("Arm segment 3 pos: ")
     lcd.print(armSegment3Pos);
   }
 }
